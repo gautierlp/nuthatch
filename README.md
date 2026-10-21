@@ -9,17 +9,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/gautierlp/dormouse">
+  <a href="https://github.com/gautierlp/nuthatch">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dormouse-logo-dark.svg">
-      <img src="docs/assets/dormouse-logo.svg" alt="dormouse" width="160" height="160">
+      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/nuthatch-logo-dark.svg">
+      <img src="docs/assets/nuthatch-logo.svg" alt="nuthatch" width="160" height="160">
     </picture>
   </a>
 
-  <h1 align="center">dormouse</h1>
+  <h1 align="center">nuthatch</h1>
 
   <p align="center">
-    <em>It puts quiet chats to sleep. A new message wakes them up. It never sleeps on a question.</em>
+    <em>It tucks quiet chats away. A new message brings them back. It never hides a question.</em>
     <br />
     <br />
     An hourly job that archives the Beeper chats where nobody is waiting on you.
@@ -29,9 +29,9 @@
     <br />
     <a href="src/rules.py">Read the rule</a>
     &middot;
-    <a href="https://github.com/gautierlp/dormouse/issues/new">Report bug</a>
+    <a href="https://github.com/gautierlp/nuthatch/issues/new">Report bug</a>
     &middot;
-    <a href="https://github.com/gautierlp/dormouse/issues/new">Request feature</a>
+    <a href="https://github.com/gautierlp/nuthatch/issues/new">Request feature</a>
   </p>
 </div>
 
@@ -72,12 +72,12 @@
 It is Monday, 9 am. Beeper says 47 chats. Most of them ended on Friday with "ok 👍".
 Three of them asked you something, and you cannot find them.
 
-A dormouse goes through the inbox every hour. A chat that has been quiet for 12 hours
-goes to sleep in the archive, unless the other person is still waiting on you. A small
-model on your own machine reads the last ten messages to decide. When someone writes
-again, Beeper wakes the chat up and it is back in your inbox.
+A nuthatch goes through the inbox every hour. A chat that has been quiet for 12 hours
+gets tucked away in the archive, unless the other person is still waiting on you. A
+small model on your own machine reads the last ten messages to decide. When someone
+writes again, Beeper puts the chat back in your inbox.
 
-Your inbox keeps what you owe. The rest is asleep.
+Your inbox keeps what you owe. The rest is tucked away.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -99,7 +99,7 @@ is nothing to `pip install`.
 ### Prerequisites
 
 * Python 3.11 or newer
-* [Beeper Desktop](https://www.beeper.com/download), signed in, on the machine that runs dormouse
+* [Beeper Desktop](https://www.beeper.com/download), signed in, on the machine that runs nuthatch
 * [Ollama](https://ollama.com) with a small model. Qwen3.5 4B is the default: it runs
   on a CPU and reads French and English well
   ```sh
@@ -115,8 +115,8 @@ night works, but it only tidies while it is open. A small home server is better:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/gautierlp/dormouse.git ~/dormouse
-   cd ~/dormouse
+   git clone https://github.com/gautierlp/nuthatch.git ~/nuthatch
+   cd ~/nuthatch
    ```
 2. Run the tests
    ```sh
@@ -126,14 +126,14 @@ night works, but it only tidies while it is open. A small home server is better:
    the token. It only works with the Beeper that made it.
 4. Create the env file and paste the token in it
    ```sh
-   mkdir -p ~/.config/dormouse
-   cp env.example ~/.config/dormouse/env
-   chmod 600 ~/.config/dormouse/env
+   mkdir -p ~/.config/nuthatch
+   cp env.example ~/.config/nuthatch/env
+   chmod 600 ~/.config/nuthatch/env
    ```
 
 ### Configuration
 
-All settings live in `~/.config/dormouse/env`:
+All settings live in `~/.config/nuthatch/env`:
 
 | Variable | Default | What it does |
 |---|---|---|
@@ -141,10 +141,10 @@ All settings live in `~/.config/dormouse/env`:
 | `ARCHIVE_ENABLED` | `0` | `1` archives for real. Anything else is a dry run. |
 | `BEEPER_ARCHIVE_MODEL` | `qwen3.5:4b` | Any Ollama model that can return JSON. |
 | `ALWAYS_ARCHIVE` | none | Comma-separated chat titles that never need a reply, such as a bot that pings you. They are archived after the quiet period, with no model call. Case does not matter. |
-| `STATE_DB` | `~/.local/state/dormouse/state.db` | Where the model's verdicts are cached. |
+| `STATE_DB` | `~/.local/state/nuthatch/state.db` | Where the model's verdicts are cached. |
 
 The quiet period (12 hours) and the history size (10 messages) are constants at the
-top of `src/rules.py` and `src/dormouse.py`.
+top of `src/rules.py` and `src/nuthatch.py`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -179,7 +179,7 @@ Bank           Your statement is ready
 Mum            Did you see the photos? 😂
 ```
 
-What the dormouse leaves you:
+What the nuthatch leaves you:
 
 ```
 Sam            coming on Saturday?
@@ -224,8 +224,8 @@ On a server with no screen, Beeper Desktop runs on a virtual display.
    restarts.
 4. Turn on the hourly run:
    ```sh
-   systemctl --user enable --now dormouse.timer
-   journalctl --user -u dormouse -o cat | grep ARCHIVE
+   systemctl --user enable --now nuthatch.timer
+   journalctl --user -u nuthatch -o cat | grep ARCHIVE
    ```
 5. To update, `git pull` in the clone. Each hourly run reads the code from there, so no
    restart is needed. A change under `deploy/linux/` still needs the units copied again and
@@ -236,7 +236,7 @@ On a server with no screen, Beeper Desktop runs on a virtual display.
 <!-- HOW IT WORKS -->
 ## How it works
 
-Once an hour, `src/dormouse.py` lists every chat from the Beeper API and asks one
+Once an hour, `src/nuthatch.py` lists every chat from the Beeper API and asks one
 question per chat: does the owner still owe an answer?
 
 1. **Archived or pinned:** skip it.
@@ -262,8 +262,8 @@ so a message is judged once, not once an hour. Any failure (the model times out,
 Beeper is down, one chat has bad data) keeps the chat in the inbox and moves on to the
 next one.
 
-Beeper itself does the waking up: a new message in an archived chat moves it back to
-the inbox. If you move a chat back yourself, dormouse leaves it alone until someone
+Beeper itself brings chats back: a new message in an archived chat moves it back to
+the inbox. If you move a chat back yourself, nuthatch leaves it alone until someone
 writes in it again.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -278,7 +278,7 @@ Your messages never leave the machine.
   one exists, and it would see every message you get.
 * Logs: one line per archived chat, with the chat name and the reason. Never the
   message text, which can hold links with tokens. They stay in your local journal.
-* Token: in `~/.config/dormouse/env`, `chmod 600`, never in the repo.
+* Token: in `~/.config/nuthatch/env`, `chmod 600`, never in the repo.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -302,10 +302,10 @@ One verdict takes 10 to 20 seconds on a 2018 office PC with no GPU. The first ru
 judges every old chat and takes a few minutes. After that, an hourly run takes
 seconds, because it only judges new messages.
 
-**Why a dormouse?**
-It sleeps through seven months of the year and wakes up the moment things warm up.
-That is the whole design. It also fits in a teacup, which is roughly how a 4B model
-feels on a CPU.
+**Why a nuthatch?**
+It hides seeds in the cracks of tree bark and comes back for each one when it needs
+it. That is the whole design. It also weighs about 20 grams, which is roughly how a 4B
+model feels on a CPU.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -318,9 +318,9 @@ feels on a CPU.
 - [x] Headless Linux with systemd units
 - [ ] A launchd agent for macOS
 - [ ] Skip chosen networks or chats (work Slack, family group)
-- [ ] A morning summary of what it put to sleep
+- [ ] A morning summary of what it tucked away
 
-See the [open issues](https://github.com/gautierlp/dormouse/issues) for the rest.
+See the [open issues](https://github.com/gautierlp/nuthatch/issues) for the rest.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -354,7 +354,7 @@ Distributed under the MIT License. See [`LICENSE`](LICENSE).
 
 Gautier Le Poher - gautier@lepoher.co
 
-Project link: [https://github.com/gautierlp/dormouse](https://github.com/gautierlp/dormouse)
+Project link: [https://github.com/gautierlp/nuthatch](https://github.com/gautierlp/nuthatch)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

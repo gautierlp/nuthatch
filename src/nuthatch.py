@@ -10,7 +10,7 @@ from rules import ARCHIVE, ASK, KEEP, SKIP, final_decision, pre_decision
 from state import DecisionStore
 
 DEFAULT_MODEL = "qwen3.5:4b"
-DEFAULT_STATE = "~/.local/state/dormouse/state.db"
+DEFAULT_STATE = "~/.local/state/nuthatch/state.db"
 HISTORY_SIZE = 10
 
 

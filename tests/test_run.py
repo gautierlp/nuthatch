@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timezone
 
-import dormouse as run
+import nuthatch as run
 from state import DecisionStore
 
 NOW = datetime(2026, 10, 5, 12, 0, tzinfo=timezone.utc)
