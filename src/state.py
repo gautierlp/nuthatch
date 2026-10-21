@@ -1,5 +1,5 @@
 """SQLite cache of model verdicts, keyed by chat, last activity and model, and the
-record of what dormouse archived."""
+record of what nuthatch archived."""
 import os
 import sqlite3
 from datetime import datetime, timezone

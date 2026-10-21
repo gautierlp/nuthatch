@@ -8,4 +8,4 @@ test:
 
 # One run, dry unless ARCHIVE_ENABLED=1 is set
 run *ARGS:
-    set -a; . ~/.config/dormouse/env; set +a; python3 src/dormouse.py {{ARGS}}
+    set -a; . ~/.config/nuthatch/env; set +a; python3 src/nuthatch.py {{ARGS}}

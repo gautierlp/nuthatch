@@ -1,0 +1,12 @@
+# User unit, started by nuthatch.timer. Dry run unless ARCHIVE_ENABLED=1
+# in the env file. Expects the repo cloned at ~/nuthatch.
+[Unit]
+Description=nuthatch: archive quiet Beeper chats where no reply is owed
+After=beeper-desktop.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/nuthatch/env
+Environment=PYTHONUNBUFFERED=1
+TimeoutStartSec=55min
+ExecStart=/usr/bin/python3 %h/nuthatch/src/nuthatch.py

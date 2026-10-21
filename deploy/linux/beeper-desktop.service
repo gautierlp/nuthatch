@@ -1,5 +1,5 @@
 # User unit. Beeper Desktop on the virtual display, so its local API
-# (127.0.0.1:23373) is always up for dormouse.
+# (127.0.0.1:23373) is always up for nuthatch.
 # The first sign-in is manual: see "Headless Linux" in the README.
 [Unit]
 Description=Beeper Desktop (headless, for the local API)
